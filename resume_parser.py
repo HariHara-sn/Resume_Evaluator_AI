@@ -9,7 +9,9 @@ import nltk
 import spacy
 import os
 
-# Check if the model is available; if not, download it
+import spacy
+import os
+
 try:
     nlp = spacy.load("en_core_web_sm")
 except OSError:
