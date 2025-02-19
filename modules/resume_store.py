@@ -50,7 +50,7 @@ def process_admin_mode():
             st.download_button(label='Download Resume', data=file_contents, file_name=resume[1])
 
 def process_user_mode():
-    st.title("Resume Parser using NLP")
+    st.title("Resume Parser")
     uploaded_file = st.file_uploader("Upload a PDF resume", type="pdf")
 
     if uploaded_file:

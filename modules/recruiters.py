@@ -3,6 +3,9 @@ import spacy
 from spacy.matcher import Matcher
 import csv
 import fitz  # PyMuPDF
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from io import BytesIO
 
 # Load the SpaCy model
 nlp = spacy.load('en_core_web_sm')
@@ -21,23 +24,79 @@ def process_recruiters_mode():
     if st.button("Save Required Skills"):
         save_required_skills(required_skills)
 
-    # Check skills and extract names in uploaded resumes and collect all skills found
-    all_skills_found = set()
+    # Store results for PDF report
+    candidates_data = []
+
     if uploaded_files:
         for file in uploaded_files:
             text = extract_text_from_pdf(file)
-            doc = nlp(text)  # Convert text to a SpaCy doc object
+            doc = nlp(text)
             candidate_name = extract_candidate_name(doc)
-            display_candidate_info(candidate_name, file.name)
-
             parsed_skills = extract_all_skills(doc)
-            display_parsed_skills(parsed_skills)
-
             skills_found = extract_skills(doc, required_skills)
+            not_found_skills = set(required_skills) - skills_found  # Find missing skills
+
+            # Display information
+            display_candidate_info(candidate_name, file.name)
             display_skills_found(required_skills, skills_found)
 
-            all_skills_found.update(skills_found)
+            # Store data for report
+            candidates_data.append({
+                "name": candidate_name,
+                "found_skills": skills_found,
+                "not_found_skills": not_found_skills
+            })
 
+    # Generate report button
+    if candidates_data:
+        if st.button("View Report as PDF"):
+            pdf_bytes = generate_pdf_report(candidates_data)
+            st.download_button(label="Download Report", data=pdf_bytes, file_name="Recruitment_Report.pdf", mime="application/pdf")
+
+def generate_pdf_report(candidates_data):
+    buffer = BytesIO()
+    pdf = canvas.Canvas(buffer, pagesize=letter)
+    pdf.setFont("Helvetica", 12)
+    
+    y_position = 750  # Start position for text
+
+    # Title
+    pdf.setFont("Helvetica-Bold", 14)
+    pdf.drawString(220, y_position, "Recruitment Report")
+    y_position -= 30
+    
+    for candidate in candidates_data:
+        # Candidate Name as Heading (centered and bold)
+        # pdf.setFont("Helvetica-Bold", 16)
+        # pdf.drawString(50, y_position, "Candidate Name")
+
+        pdf.setFont("Helvetica-Bold", 12)
+        pdf.drawString(50, y_position, f"{candidate['name']}")
+        y_position -= 20
+
+
+        # pdf.setFont("Helvetica", 12)
+        # pdf.drawString(50, y_position, "Skills Found:")
+        # y_position -= 15
+
+        # for idx, skill in enumerate(candidate["found_skills"], 1):
+        #     pdf.drawString(70, y_position, f"{idx}. {skill.capitalize()}")
+        #     y_position -= 15
+
+        # Add space between candidates
+        y_position -= 20
+
+        # Add new page if necessary
+        if y_position < 100:  # Check if we need to move to a new page
+            pdf.showPage()
+            pdf.setFont("Helvetica", 12)
+            y_position = 750
+
+    pdf.save()
+    buffer.seek(0)
+    return buffer
+
+# Function to save required skills
 def save_required_skills(required_skills):
     with open('data/UpdatedSkills.csv', 'a', newline='') as file:
         writer = csv.writer(file)
@@ -84,41 +143,20 @@ def extract_skills(doc, required_skills):
 
     return skills_found
 
-# Function to parse all skills from UpdatedSkills.csv
-def parse_all_skills():
-    skills_list = set()
-    with open('data/UpdatedSkills.csv', 'r') as file:
-        reader = csv.reader(file)
-        for row in reader:
-            for item in row:
-                skills_list.add(str(item).lower())
-    
-    return skills_list
-
 # Function to display candidate information
 def display_candidate_info(candidate_name, file_name):
-    st.write("-" * 30)
-    st.write(f"**File Name:** {file_name}")
-    st.subheader(f"**Candidate Name:** {candidate_name}")
+    st.subheader(f"**Candidate Name:**")
+    st.write(candidate_name)
 
-# Function to display parsed skills from the resume
-def display_parsed_skills(parsed_skills):
-    if parsed_skills:
-        parsed_skills_str = ", ".join(parsed_skills)
-        st.subheader("\n**All Skills Parsed from Resume:**")
-        st.write(parsed_skills_str)
-    else:
-        st.subheader("\n**No Skills Parsed from Resume**")
 
 # Function to display skills found or not
 def display_skills_found(required_skills, skills_found):
-    st.subheader("\n**Skills Found or Not Found:**\n")
+    st.subheader("\n**Skills**\n")
     for skill in required_skills:
         if skill in skills_found:
-            st.write(f"- {skill}: Found")
+            st.write(f"- {skill}: ✅ Found")
         else:
-            st.write(f"- {skill}: Not Found")
-
+            st.write(f"- {skill}: ❌ Not Found")
 
 if __name__ == "__main__":
     process_recruiters_mode()

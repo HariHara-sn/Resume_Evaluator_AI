@@ -3,7 +3,7 @@ import pdfplumber
 import spacy
 import re
 import phonenumbers
-from resume_parser import extract_resume_info_from_pdf, extract_contact_number_from_resume, extract_education_from_resume
+from resume_parser import  extract_education_from_resume
 # Load NLP model
 nlp = spacy.load("en_core_web_sm")
 
@@ -94,7 +94,7 @@ def generate_feedback(matched_skills):
     return "\n".join(feedback)
 
 st.set_page_config(page_title="Resume Evaluator", layout="centered", page_icon="✅")
-st.title("Resume Evaluator using NLP 📄")
+st.title("Resume Evaluator")
 
 uploaded_file = st.file_uploader("Upload Your Resume (PDF)", type=["pdf"])
 
@@ -137,5 +137,5 @@ if uploaded_file:
     st.header("📢 Feedback & Suggestions")
     st.markdown(feedback, unsafe_allow_html=True)
 
-    with st.expander("📜 View Extracted Resume Text"):
-        st.text(resume_text[:1000] + "...")  
+    # with st.expander("📜 View Extracted Resume Text"):
+    #     st.text(resume_text[:1000] + "...")  
