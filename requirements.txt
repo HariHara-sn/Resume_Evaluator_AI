@@ -9,3 +9,4 @@ pymupdf
 fitz
 spacy
 reportlab
+nltk

@@ -140,3 +140,6 @@ def process_user_mode():
 
         # with st.expander("📜 View Extracted Resume Text"):
         #     st.text(resume_text[:1000] + "...")  
+
+if __name__ == "__main__":
+    process_user_mode()
