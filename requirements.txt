@@ -7,6 +7,7 @@ python-docx
 joblib
 pymupdf  
 fitz
-spacy
 reportlab
 nltk
+spacy
+en-core-web-sm

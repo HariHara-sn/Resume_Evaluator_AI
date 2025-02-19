@@ -6,6 +6,16 @@ import spacy
 import csv
 import nltk
 
+import spacy
+import os
+
+# Check if the model is available; if not, download it
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
+    os.system("python -m spacy download en_core_web_sm")
+    nlp = spacy.load("en_core_web_sm")
+
 # Additional libraries
 nltk.download('punkt')
 
