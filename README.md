@@ -4,19 +4,6 @@
 
 </center>
 
-## Table of Contents
-- [Overview](#overview)
-- [Key Features](#key-features)
-- [Technologies Used](#technologies-used)
-- [How to Run the Application](#how-to-run-the-application)
-- [Functionalities](#functionalities)
-  - [User](#user)
-  - [Recruiters](#recruiters)
-  - [Feedback](#feedback)
-  - [Admin](#admin)
-- [Future Enhancements](#future-enhancements)
-- [Team](#team)
-
 ## Overview
 
 The **Resume NLP Parser** revolutionizes the recruitment process by employing sophisticated Natural Language Processing (NLP) techniques. This tool efficiently extracts, analyzes, and visualizes data from resumes, enabling data-driven decision-making in hiring. Tailored for both candidates and recruiters, it enhances the application experience by parsing resumes comprehensively and offering powerful insights.
@@ -48,8 +35,8 @@ To run the Resume NLP Parser:
 
 1. Clone this repository to your local machine and ``cd`` into the project directory.
     ``` bash
-    git@github.com:Deep4GB/Resume-NLP-Parser.git
-    cd Resume-NLP-Parser
+    https://github.com/HariHara-sn/Resume_Evaluator_AI.git
+    cd Resume_Evaluator_AI
     ```
 2. Set up a Python environment with necessary dependencies listed in `requirements.txt`.
     ``` bash
@@ -57,7 +44,7 @@ To run the Resume NLP Parser:
     ```
 3. Run the application using Streamlit:
     ```bash
-    streamlit run main.py
+    streamlit run pythonres.py
     ```
 4. Upload resumes and explore the parsed data using the application's functionalities.
 
@@ -89,8 +76,8 @@ In the pipeline for this project are several enhancements:
 
 ## Team
 
-- **Darsh Patel**: [GitHub Profile](https://github.com/darsh8692)
-- **Dev Patel**: [GitHub Profile](https://github.com/Devv64bit)
-- **Deep Patel**: [GitHub Profile](https://github.com/Deep4GB)
-- **Dravya Patel**: [GitHub Profile](https://github.com/dravyaaa)
+- **Hari Hara Sudhan S**: [GitHub Profile](https://github.com/HariHara-sn)
+- **Rakshana**: [GitHub Profile](https://github.com/Rakshana1507)
+- **Sruthi**: [GitHub Profile](https://github.com/ssruthi2730)
+
 
