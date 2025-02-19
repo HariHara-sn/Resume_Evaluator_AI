@@ -17,7 +17,7 @@ try:
 except OSError:
     os.system("python -m spacy download en_core_web_sm")
     nlp = spacy.load("en_core_web_sm")
-
+    print("SpaCy Model Loaded Successfully!")
 # Additional libraries
 nltk.download('punkt')
 
